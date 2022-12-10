@@ -1,0 +1,24 @@
+ROUTINE fibo
+
+setUpMemo
+    set memo(0)=0
+    set memo(1)=1
+    set memo(2)=1
+
+fib(n)
+    if '$d(memo(n)) set memo(n)= ($$fib(n-1)+$$fib(n-2))
+    quit $g(memo(n))
+
+fibbonacci(n)
+    do setUpMemo
+    quit $$fib(n)
+
+fibonnaciLastDigit(n)
+    if n<2 quit n
+    set a=0,b=1
+    for x=1:1:n-1 {
+        set temp=b
+        set b=(a+b)#10
+        set a=temp
+    }
+    quit b
