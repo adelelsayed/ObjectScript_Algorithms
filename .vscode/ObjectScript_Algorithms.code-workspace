@@ -3,10 +3,6 @@
 		{
 			"name": "ObjectScript_Algorithms",
 			"path": ".."
-		},
-		{
-			"name": "ObjectScriptAlgorithms - default~iris:USER",
-			"uri": "isfs://default~iris:user/?project=ObjectScriptAlgorithms"
 		}
 	],
 	"settings": {
