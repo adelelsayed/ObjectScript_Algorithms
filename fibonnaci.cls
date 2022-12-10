@@ -1,4 +1,4 @@
-Class Custom.Algorithm.Fibonnaci
+Class Custom.Algorithms.Fibonnaci
 {
 
 ClassMethod setUpMemo() [ PublicList = memo ]
@@ -10,8 +10,8 @@ ClassMethod setUpMemo() [ PublicList = memo ]
 
 ClassMethod fibbonacci(n As %Integer) As %Integer [ PublicList = memo ]
 {
-    // won't work...framestack error
-    //but works as a routine see $$fibbonacci^Custom.algorithm.fibo()
+    // prone to framestack error
+    //works as a routine see $$fibbonacci^Custom.algorithm.fibo()
     if '$d(memo(n)) set memo(n)= (..fibbonacci(n-1)+..fibbonacci(n-2))
     return $g(memo(n))
 }
