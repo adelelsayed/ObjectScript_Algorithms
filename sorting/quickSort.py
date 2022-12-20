@@ -44,7 +44,7 @@ def quickSort2way(array, low, high):
         # Recursive call on the right of pivot
         quickSort2way(array, pi + 1, high)
 
-def partition(arr, first, last, start, mid):
+def partition3Way(arr, first, last, start, mid):
     
     pivot = arr[last]
     end = last
@@ -70,7 +70,7 @@ def partition(arr, first, last, start, mid):
         else:
             mid[0] = mid[0] + 1
 # Function to sort the array elements in 3 cases
-def quicksort(arr,first,last):
+def quicksort3Way(arr,first,last):
     # First case when an array contain only 1 element
     if (first >= last):
         return
@@ -87,9 +87,9 @@ def quicksort(arr,first,last):
     start = [first]
     mid = [first]
     # Function to partition the array.
-    partition(arr, first, last, start, mid)
+    partition3Way(arr, first, last, start, mid)
     
     # Recursively sort sublist containing elements that are less than the pivot.
-    quicksort(arr, first, start[0] - 1)
+    quicksort3Way(arr, first, start[0] - 1)
     # Recursively sort sublist containing elements that are more than the pivot
-    quicksort(arr, mid[0], last)
+    quicksort3Way(arr, mid[0], last)

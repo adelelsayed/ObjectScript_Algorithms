@@ -37,12 +37,12 @@ ClassMethod PartitionTwoWay(ByRef lista, left As %Integer, right As %Integer) As
 }
 
 /// Description
-ClassMethod PartitionArrTwoWay(ByRef Arr, left As %Integer, right As %Integer) As %Integer
+ClassMethod PartitionArrTwoWay(ByRef Arr, left As %Integer, right As %Integer, pKey As %Integer) As %Integer
 {
-    set pivot=$g(Arr(right))
+    set pivot=$lg($g(Arr(right)),pKey)
     set idxLow=left-1
     for ix=left:1:right-1{
-        if (($g(Arr(ix)))<=pivot) {
+        if ($lg(($g(Arr(ix))),pKey)<=pivot) {
             set idxLow=$I(idxLow)
             set temp= ($g(Arr(idxLow)))
             set Arr(idxLow)=($g(Arr(ix)))
@@ -85,6 +85,34 @@ ClassMethod PartitionThreeWay(ByRef lista, ByRef midStart, ByRef midEnd, left As
     Return idxLow
 }
 
+ClassMethod PartitionArrThreeWay(ByRef Arr, ByRef midStart, ByRef midEnd, left As %Integer, right As %Integer, pKey As %Integer) As %Integer
+{
+    set pivot=$lg($g(Arr(right)),pKey)
+    set idxLow=left-1
+    while midEnd<=right{
+        if ($lg($g(Arr(midEnd)),pKey)<pivot){
+            set temp= $g(Arr(midEnd))
+            set Arr(midEnd)=$g(Arr(midStart))
+            set Arr(midStart)=temp
+
+            set midEnd=$I(midEnd)
+            set midStart=$I(midStart)
+
+        }elseif ($lg($g(Arr(midEnd)),pKey)>pivot){
+
+            set temp= $g(Arr(right))
+            set Arr(right)=$g(Arr(midEnd))
+            set pivot=$g(Arr(midEnd))
+            set Arr(midEnd)=temp            
+
+        }else{
+            set midEnd=$I(midEnd)
+        }
+    }
+    
+    Return idxLow
+}
+
 /// for collection with majorly unique items
 ClassMethod QuickSortTwoWay(ByRef lista, left As %Integer, right As %Integer) As %Status
 {
@@ -116,26 +144,43 @@ ClassMethod QuickSortThreeWay(ByRef lista, left As %Integer, right As %Integer) 
 }
 
 /// for collection with majorly unique items
-ClassMethod QuickSortArrTwoWay(ByRef Arr, left As %Integer = 1, right As %Integer = 0) As %Status
+/// pass array or temp global at id node WHERE ID IS INTEGER i.e: for ^||TMP("node",id) pass an array that is a merge of ^||TMP("node")
+/// id will be sorted naturally in iris but the sorting would be via a property in the data list saved at $g(^||TMP("node",id))
+/// so parameter pKey is index of comparison key in the list at $g(^||TMP("node",id))
+/// after sort merge array back to ^||TMP("node")
+ClassMethod QuickSortArrTwoWay(ByRef Arr, left As %Integer = 1, right As %Integer = 0, pKey As %Integer) As %Status
 {
     Set sc = $$$OK
     set arraylen=..getArrayLength(.Arr)
     if ('right) set right=arraylen
     if right<=left return sc
 
-    set pivot=..PartitionArrTwoWay(.Arr,left,right)
+    set pivot=..PartitionArrTwoWay(.Arr,left,right,pKey)
 
-    do ..QuickSortArrTwoWay(.Arr,left,pivot-1)
+    do ..QuickSortArrTwoWay(.Arr,left,pivot-1,pKey)
     
-    do ..QuickSortArrTwoWay(.Arr,pivot+1,right)
+    do ..QuickSortArrTwoWay(.Arr,pivot+1,right,pKey)
     Return sc
 }
 
 /// for collection with majorly non unique items
-ClassMethod QuickSortArrThreeWay(ByRef Arr, left As %Integer, right As %Integer) As %Status
+/// pass array or temp global at id node WHERE ID IS INTEGER i.e: for ^||TMP("node",id) pass an array that is a merge of ^||TMP("node")
+/// id will be sorted naturally in iris but the sorting would be via a property in the data list saved at $g(^||TMP("node",id))
+/// so parameter pKey is index of comparison key in the list at $g(^||TMP("node",id))
+/// after sort merge array back to ^||TMP("node")
+ClassMethod QuickSortArrThreeWay(ByRef Arr, left As %Integer = 1, right As %Integer = 0, pKey As %Integer) As %Status
 {
     Set sc = $$$OK
-    // do something
+    set arraylen=..getArrayLength(.Arr)
+    if ('right) set right=arraylen
+    if right<=left return sc
+    set midleft=left
+    set midright=left
+    set pivot=..PartitionArrThreeWay(.Arr,.midleft,.midright,left,right,pKey)
+    
+    do ..QuickSortArrThreeWay(.Arr,left,midleft-1,pKey)
+    
+    do ..QuickSortArrThreeWay(.Arr,midright,right,pKey)
     Return sc
 }
 
