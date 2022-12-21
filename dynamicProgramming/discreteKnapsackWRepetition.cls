@@ -7,7 +7,7 @@ ClassMethod OptimalWeight(capacity As %Integer, values As %List) As %Integer
     Set retVal = 0
     if $ll(values)=0 return 0
     if $ll(values)=1 return capacity*$lg(values,1)
-
+    do ##class(Custom.Algorithms.divideAndconquer.sorting.QuickSort).QuickSortTwoWay(.values,1,$ll(values))
     set w=0
     set Arr=""
 
