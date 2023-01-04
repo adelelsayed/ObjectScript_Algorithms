@@ -10,8 +10,8 @@ ClassMethod OptimalWeight(capacity As %Integer, values As %List) As %Integer
     do ##class(Custom.Algorithms.divideAndconquer.sorting.QuickSort).QuickSortTwoWay(.values,1,$ll(values))
     set w=0
     set Arr=""
-    for ix=1:1:$ll(values){   
-        set currentValue=$lg(values,ix) 
+    set ix=0
+    while $LISTNEXT(values,ix,currentValue){   
         for w=1:1:capacity {
             if (currentValue<=w) {
                 set Arr(ix,w)=##class(Ens.Util.FunctionSet).Max($g(Arr(ix-1,w)), currentValue+$g(Arr(ix-1,w-currentValue)))
