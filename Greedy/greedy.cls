@@ -28,9 +28,11 @@ ClassMethod GetValuesWithWeightsorted(weights As %List, values As %List, ByRef V
     Set sc = $$$OK
     if $ll(values)'=$ll(weights) return sc
     set ix=0
+    set idx=0
     while $LISTNEXT(values,ix,currentValue){ 
-        set curWeight=$lg(weights,ix)
-        set curVal=currentValue/$lg(weights,ix)
+        set idx=$I(idx)
+        set curWeight=$lg(weights,idx)
+        set curVal=currentValue/$lg(weights,idx)
         set VWSorted(curVal)=$lb(currentValue,curWeight)
     }
     
