@@ -13,8 +13,10 @@ ClassMethod OptimalWeight(capacity As %Integer, values As %List) As %Integer
 
     for w=1:1:capacity {
         set ix=0
+        set idx=0
         while $LISTNEXT(values,ix,currentValue){ 
-            if ix>capacity continue
+            set idx=$I(idx)
+            if idx>capacity continue
             if currentValue<=w{
                 set Arr(w)=##class(Ens.Util.FunctionSet).Max((currentValue+$g(Arr(w-currentValue))),$g(Arr(w)))
             }
