@@ -35,3 +35,48 @@ def explore(listOfVertices,vrtx,visited):
         newSet=explore(listOfVertices,vtx,visited)
         if newSet: vrtx.connectionList=vrtx.connectionList|newSet
     return vrtx.connectionList
+
+
+"""
+this use of depth first search is focused on counting how many islands 
+in the graph so every componentIdx updated represents a part of graph 
+that is isolated from other parts
+
+for instance this graph adjancency matrix
+4 vertices 1,2,3,4
+the following edges exist
+1 2
+3 2
+
+so 1,2,3 are connected representing one component while the vertex 4 is isolated as another compoenet
+"""
+def countComponents(adj):
+    listOfVertexObjects=[Vertex(ix, adj[ix]) for ix in range(len(adj))]
+    visited=[]
+    components={}
+    componentIdx=1
+    
+    for vrtx in listOfVertexObjects:
+        exploreAndCountComponents(listOfVertexObjects,vrtx,visited, componentIdx, components)
+        componentIdx+=1
+    
+    return len(components.keys())
+
+
+def exploreAndCountComponents(listOfVertices,vrtx,visited, compId, components):
+    if len(vrtx.initialAdj)==0 :
+        if compId not in components.keys():components.update({compId:[vrtx.label]})
+        else:
+            components[compId].append(vrtx.label)
+    for vtxId in vrtx.initialAdj:
+        vtx=listOfVertices[vtxId]
+        if (vtxId,vrtx.label) in visited: continue
+        visited.append((vtxId,vrtx.label))
+        if compId not in components.keys():components.update({compId:[vtxId]})
+        else:
+            components[compId].append(vtxId)
+        vrtx.connectionList.add(vtxId)
+        newSet=exploreAndCountComponents(listOfVertices,vtx,visited, compId, components)
+        if newSet: vrtx.connectionList=vrtx.connectionList|newSet
+    
+    return vrtx.connectionList
