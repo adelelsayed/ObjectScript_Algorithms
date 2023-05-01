@@ -1,7 +1,7 @@
 Class Custom.Algorithms.graph.depthfirstsearch
 {
 
-/// supposing that adjacency list is passed as a python list
+/// supposing that adjacency list is passed as a multidimensional array
 /// i.e:
 /// 1 -> 2,4
 /// 2 ->

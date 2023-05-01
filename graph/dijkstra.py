@@ -22,7 +22,7 @@ def dijkstra(adj, startNode):
         priorityQueue.sort(key=lambda x:x[0]) #sort queue so 0th element will be the min distance node
         currentNode=priorityQueue[0]
         currentNodeIdx=currentNode[1]
-        currentNodeDistance=currentNode[0]
+        
         for node in range(len(adj[currentNodeIdx])):
             nodeValue=adj[currentNodeIdx][node]
             if not nodeValue: continue #skipping 0 distance
